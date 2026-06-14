@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StockPulse — Login</title>
+  <meta name="description" content="StockPulse real-time stock broker dashboard. Sign in to track live prices." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'pulse-bg': '#0a0e1a',
+            'pulse-card': '#0f1629',
+            'pulse-border': '#1e293b',
+            'pulse-accent': '#3b82f6',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0a0e1a;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .login-bg {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 100%, rgba(139,92,246,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 40% at 10% 60%, rgba(16,185,129,0.06) 0%, transparent 50%),
+        #0a0e1a;
+    }
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    .glass-card {
+      background: rgba(15, 22, 41, 0.7);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(59,130,246,0.15);
+      box-shadow:
+        0 0 80px rgba(59,130,246,0.06),
+        0 25px 50px rgba(0,0,0,0.4);
+    }
+    .logo-pulse {
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+    @keyframes logoPulse {
+      0%, 100% { opacity: 1; filter: drop-shadow(0 0 8px rgba(59,130,246,0.4)); }
+      50% { opacity: 0.85; filter: drop-shadow(0 0 20px rgba(59,130,246,0.6)); }
+    }
+    .input-glow:focus {
+      box-shadow: 0 0 0 2px rgba(59,130,246,0.3), 0 0 20px rgba(59,130,246,0.1);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      box-shadow: 0 0 30px rgba(59,130,246,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    .floating-ticker {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: rgba(148,163,184,0.08);
+      font-weight: 600;
+      animation: floatUp 12s linear infinite;
+      pointer-events: none;
+      user-select: none;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh) rotate(5deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+  <div class="login-bg"></div>
+  <div class="grid-overlay"></div>
+
+  <!-- Floating background tickers -->
+  <div class="floating-ticker" style="left:8%; animation-delay:0s;">GOOG</div>
+  <div class="floating-ticker" style="left:25%; animation-delay:2.5s;">TSLA</div>
+  <div class="floating-ticker" style="left:45%; animation-delay:5s;">AMZN</div>
+  <div class="floating-ticker" style="left:65%; animation-delay:7.5s;">META</div>
+  <div class="floating-ticker" style="left:82%; animation-delay:10s;">NVDA</div>
+  <div class="floating-ticker" style="left:15%; animation-delay:1.5s; font-size:1rem;">$178.25</div>
+  <div class="floating-ticker" style="left:55%; animation-delay:4s; font-size:1rem;">$507.30</div>
+  <div class="floating-ticker" style="left:75%; animation-delay:8.5s; font-size:1rem;">$135.60</div>
+
+  <div class="relative z-10 w-full max-w-md px-4">
+    <div class="glass-card rounded-2xl p-8 md:p-10">
+      <!-- Logo -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-3 mb-4 logo-pulse">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+            </svg>
+          </div>
+          <span class="text-2xl font-bold text-white tracking-tight">Stock<span class="text-blue-400">Pulse</span></span>
+        </div>
+        <p class="text-slate-400 text-sm">Real-time market intelligence at your fingertips</p>
+      </div>
+
+      <!-- Form -->
+      <form id="login-form" class="space-y-5">
+        <div>
+          <label for="email-input" class="block text-sm font-medium text-slate-300 mb-2">Email address</label>
+          <input
+            type="email"
+            id="email-input"
+            required
+            autocomplete="email"
+            placeholder="trader@example.com"
+            class="input-glow w-full px-4 py-3 rounded-xl bg-slate-900/60 border border-slate-700/60 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-blue-500/50 transition-all duration-300"
+          />
+        </div>
+        <button
+          type="submit"
+          id="login-btn"
+          class="btn-primary w-full py-3 rounded-xl text-white font-semibold text-sm tracking-wide"
+        >
+          Enter Dashboard →
+        </button>
+      </form>
+
+      <!-- Footer -->
+      <div class="mt-6 pt-5 border-t border-slate-700/40">
+        <div class="flex items-center justify-center gap-4 text-xs text-slate-500">
+          <span class="flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            5 markets live
+          </span>
+          <span>•</span>
+          <span>WebSocket powered</span>
+          <span>•</span>
+          <span>No password needed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const saved = localStorage.getItem('stockpulse_email');
+      if (saved) {
+        window.location.href = '/dashboard';
+        return;
+      }
+      document.getElementById('login-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = document.getElementById('email-input').value.trim();
+        if (!email) return;
+        localStorage.setItem('stockpulse_email', email);
+        window.location.href = '/dashboard';
+      });
+    })();
+  </script>
+</body>
+</html>

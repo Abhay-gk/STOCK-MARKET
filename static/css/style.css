@@ -1,0 +1,587 @@
+/* ========================================================================
+   StockPulse — Custom Styles
+   Layered on top of Tailwind CDN for animations, effects, and polish.
+   ======================================================================== */
+
+/* ---- Base ---- */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #0a0e1a;
+  color: #f1f5f9;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* ---- Navbar glass ---- */
+.navbar-glass {
+  background: rgba(10, 14, 26, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ---- Ticker Tape ---- */
+.ticker-tape-bar {
+  background: rgba(10, 14, 26, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.ticker-tape-scroll {
+  animation: tickerScroll 35s linear infinite;
+}
+
+.ticker-tape-scroll:hover {
+  animation-play-state: paused;
+}
+
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.tape-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.tape-ticker {
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.tape-price {
+  color: #e2e8f0;
+}
+
+.tape-change {
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.tape-change.up {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.tape-change.down {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.tape-sep {
+  color: #1e293b;
+  font-size: 0.5rem;
+}
+
+/* ---- Market Summary Bar ---- */
+.summary-stat {
+  background: linear-gradient(145deg, rgba(15, 22, 41, 0.5), rgba(17, 24, 39, 0.5));
+  border: 1px solid #1e293b;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.summary-stat:hover {
+  border-color: #334155;
+}
+
+/* ---- Subscription buttons ---- */
+.sub-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.625rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  border: 1px solid #1e293b;
+  background: rgba(15, 22, 41, 0.5);
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.sub-btn:hover {
+  border-color: #334155;
+  color: #94a3b8;
+  background: rgba(30, 41, 59, 0.4);
+}
+
+.sub-btn.active {
+  border-color: rgba(59, 130, 246, 0.5);
+  background: rgba(59, 130, 246, 0.12);
+  color: #60a5fa;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.08);
+}
+
+.sub-btn.active:hover {
+  border-color: rgba(59, 130, 246, 0.7);
+  background: rgba(59, 130, 246, 0.18);
+}
+
+.sub-btn .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #334155;
+  transition: all 0.25s ease;
+}
+
+.sub-btn.active .dot {
+  background: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+}
+
+/* ---- Stock cards ---- */
+.stock-card {
+  background: linear-gradient(145deg, #0f1629 0%, #111827 100%);
+  border: 1px solid #1e293b;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.stock-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stock-card:hover {
+  border-color: #334155;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.stock-card:hover::before {
+  opacity: 1;
+}
+
+/* Flash animations for price ticks */
+.stock-card.tick-up {
+  animation: flashUp 0.6s ease-out;
+}
+
+.stock-card.tick-down {
+  animation: flashDown 0.6s ease-out;
+}
+
+@keyframes flashUp {
+  0% {
+    border-color: rgba(16, 185, 129, 0.6);
+    box-shadow: 0 0 25px rgba(16, 185, 129, 0.12), inset 0 0 30px rgba(16, 185, 129, 0.04);
+  }
+  100% {
+    border-color: #1e293b;
+    box-shadow: none;
+  }
+}
+
+@keyframes flashDown {
+  0% {
+    border-color: rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.12), inset 0 0 30px rgba(239, 68, 68, 0.04);
+  }
+  100% {
+    border-color: #1e293b;
+    box-shadow: none;
+  }
+}
+
+/* Card enter animation */
+.stock-card.entering {
+  animation: cardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Card exit animation */
+.stock-card.exiting {
+  animation: cardExit 0.35s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes cardExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+}
+
+/* ---- OHLC Stats Row ---- */
+.ohlc-row {
+  display: flex;
+  gap: 0.125rem;
+  margin-top: 0.625rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid rgba(30, 41, 59, 0.5);
+}
+
+.ohlc-item {
+  flex: 1;
+  text-align: center;
+}
+
+.ohlc-label {
+  font-size: 0.55rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.ohlc-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #94a3b8;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Price typography ---- */
+.price-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #f1f5f9;
+  font-variant-numeric: tabular-nums;
+}
+
+.price-change {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.price-change.up {
+  color: #10b981;
+}
+
+.price-change.down {
+  color: #ef4444;
+}
+
+.price-change.neutral {
+  color: #64748b;
+}
+
+.ticker-symbol {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: #e2e8f0;
+}
+
+.company-name {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+/* ---- Sparkline container ---- */
+.sparkline-wrap {
+  position: relative;
+  height: 70px;
+  margin-top: 0.75rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+/* ---- Volume badge ---- */
+.volume-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  color: #475569;
+  font-weight: 500;
+  margin-top: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ---- Modal ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(5, 7, 13, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-overlay.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: linear-gradient(145deg, #0f1629, #111827);
+  border: 1px solid #1e293b;
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalEnter {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-stat {
+  background: rgba(15, 22, 41, 0.6);
+  border: 1px solid rgba(30, 41, 59, 0.5);
+  border-radius: 0.625rem;
+  padding: 0.625rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.modal-stat-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.modal-stat-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  font-variant-numeric: tabular-nums;
+}
+
+.modal-chart-wrap {
+  position: relative;
+  height: 280px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  background: rgba(10, 14, 26, 0.4);
+  border: 1px solid rgba(30, 41, 59, 0.3);
+  padding: 0.5rem;
+}
+
+/* ---- Toasts ---- */
+.toast {
+  pointer-events: auto;
+  background: linear-gradient(145deg, #0f1629, #111827);
+  border: 1px solid #1e293b;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  min-width: 260px;
+  max-width: 360px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  animation: toastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.toast.exiting {
+  animation: toastOut 0.3s ease forwards;
+}
+
+.toast.toast-up {
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.toast.toast-down {
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.toast-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.toast-up .toast-icon {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+}
+
+.toast-down .toast-icon {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+}
+
+.toast-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.toast-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #e2e8f0;
+}
+
+.toast-msg {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  margin-top: 1px;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(30px) scale(0.95); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes toastOut {
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(40px); }
+}
+
+/* ---- Keyboard Help ---- */
+.kbd-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  padding: 0.375rem 0;
+}
+
+.kbd-row span {
+  margin-left: auto;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  padding: 0 0.375rem;
+  border-radius: 0.375rem;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid #334155;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+/* ---- Live dot pulse ---- */
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  position: relative;
+}
+
+.live-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.3);
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.8); opacity: 0; }
+}
+
+/* ---- Responsive adjustments ---- */
+@media (max-width: 640px) {
+  .price-value {
+    font-size: 1.375rem;
+  }
+  .stock-card {
+    padding: 1rem;
+  }
+  .modal-content {
+    padding: 1.25rem;
+  }
+  .modal-chart-wrap {
+    height: 200px;
+  }
+}
+
+/* ---- Utility ---- */
+.fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
